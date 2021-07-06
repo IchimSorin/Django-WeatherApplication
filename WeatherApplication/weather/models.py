@@ -6,6 +6,10 @@ class City(models.Model):
 
     def __str__(self):  #show the actual city name on the dashboard
         return self.name
-    
+
+    def save(self, *args, **kwargs):
+        self.name = self.name.capitalize()
+        return super(City, self).save(*args, **kwargs)
+
     class Meta: #show the plural of city as cities insted of citys
         verbose_name_plural = 'cities'

@@ -13,12 +13,26 @@
     <section class="hero is-primary">
         <div class="hero-body">
             <div class="container">
-                <h1 class="title">
-                    What's the weather like?
-                </h1>
+                <div class="columns">
+                    <div class="column is-offset-0 is-4">
+                        <h1 class="title">
+                            What's the weather like?
+                        </h1>
+                    </div>
+                    <div class="column is-offset-4 is-4">
+                        {% if messages %}
+                        {% for message in messages %}
+                        <div class="alert alert-info">
+                        <strong> {{ message }} </strong>
+                        </div>
+                        {% endfor %}
+                        {% endif %}
+                    </div>
+                </div>
             </div>
         </div>
     </section>
+
 
     <section class="section">
         <div class="container">
@@ -35,6 +49,7 @@
                                     Add City
                                 </button>
                             </div>
+
                         </div>
                     </form>
                 </div>
@@ -64,12 +79,15 @@
                                     </p>
                                 </div>
                             </div>
-                              <button class="button is-danger is-outlined">
-                                <span>Delete</span>
-                                <span class="icon is-small">
-                                <i class="fa fa-times" aria-hidden="true"></i>
-                                </span>
-                            </button>
+                            <form action="/del/{{ weather.city.id }}" method="POST">
+                                {% csrf_token %}
+                                <button type="submit" class="button is-danger is-outlined">
+                                    <span>Delete</span>
+                                    <span class="icon is-small">
+                                    <i class="fa fa-times" aria-hidden="true"></i>
+                                    </span>
+                                </button>
+                            </form>
                         </article>
                     </div>
                     {% endfor %}
