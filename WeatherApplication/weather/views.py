@@ -12,12 +12,15 @@ def index(request):
 
     if request.method == 'POST':    #only true if form is submitted
         form = CityForm(request.POST)   #add actual request data to form for processing
-        if len(cities.filter(name=(form.data["name"]).capitalize())) > 0:
-            messages.info(request, "The city already exists in the database !")
+        if (requests.get(url.format(form.data["name"])).json()['cod'] == '404'):
+            messages.info(request, "The city was not found in the API database!")
+        elif len(cities.filter(name=(form.data["name"]).capitalize())) > 0:
+            messages.info(request, "The city already exists in the database!")
         else:
-            messages.info(request, "The city has been added to the database !")
+            messages.info(request, "The city has been added to the database!")
             print(form)
             form.save() #will validate and save if validate
+
     
     form = CityForm
 
@@ -43,6 +46,6 @@ def index(request):
 def remove(request, item_id):
     item = City.objects.get(id=item_id)
     item.delete()
-    messages.info(request, "Item removed !")
+    messages.info(request, "Item removed!")
     return redirect('weather')
     
